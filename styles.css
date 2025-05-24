@@ -1,0 +1,215 @@
+/* Extraído do HTML original, sem alterações */
+@import url('https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    font-family: 'Ancizar Sans', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.image-3d {
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+}
+
+.truncate-address {
+    display: inline-block;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1f2937;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    text-align: center;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+#cookieConsent {
+    padding: 20px;
+    font-size: 1.1rem;
+}
+
+#cookieConsent p {
+    margin-bottom: 10px;
+}
+
+#participantsSection {
+    min-height: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+#participantsList {
+    list-style: none;
+    padding: 0;
+}
+
+#participantsList li {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 8px;
+    background: linear-gradient(to right, #374151, #2d3748);
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+#participantsList li:hover {
+    transform: translateY(-2px);
+}
+
+#participantsList li::before {
+    content: attr(data-rank) "º";
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    background: #15803d;
+    color: white;
+    border-radius: 50%;
+    margin-right: 12px;
+    font-weight: bold;
+}
+
+#participantsSection::-webkit-scrollbar {
+    width: 8px;
+}
+
+#participantsSection::-webkit-scrollbar-track {
+    background: #2d3748;
+    border-radius: 4px;
+}
+
+#participantsSection::-webkit-scrollbar-thumb {
+    background: #16a34a;
+    border-radius: 4px;
+}
+
+#participantsSection::-webkit-scrollbar-thumb:hover {
+    background: #15803d;
+}
+
+@media (max-width: 768px) {
+    #participantsSection {
+        padding: 12px;
+    }
+
+    #participantsList li {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    #participantsList li::before {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 0.8rem;
+    }
+}
+
+#logo {
+    border-radius: 20%;
+    width: 128px;
+    height: 128px;
+}
+
+#walletMenu {
+    z-index: 1001;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(-10px);
+    opacity: 0;
+}
+
+#walletMenu:not(.hidden) {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    #walletMenu {
+        width: 100%;
+        right: 0;
+    }
+}
+
+.action-button {
+    background-color: #16a34a;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+
+.action-button:hover:not(:disabled) {
+    background-color: #15803d;
+}
+
+.secondary-button {
+    background-color: #4b5563;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+
+.secondary-button:hover:not(:disabled) {
+    background-color: #374151;
+}
+
+.disabled-button {
+    background-color: #4b5563;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    cursor: not-allowed;
+}
+
+.error-text {
+    color: #f87171;
+}
+
+.loader {
+    border: 4px solid #e5e7eb;
+    border-top: 4px solid #16a34a;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
