@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteios 0xGus - Testnet Monad</title>
+    <link rel="icon" href="/images/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.8.0/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@privy-io/js@2.0.0/dist/privy.min.js"></script>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen flex flex-col">
+    <div id="popupOverlay" class="popup-overlay"></div>
+    <div id="errorPopup" class="popup">
+        <p id="errorMessage"></p>
+        <button id="closeErrorPopup" class="mt-4 secondary-button">Fechar</button>
+    </div>
+    <div id="processingPopup" class="popup">
+        <p>Transação em andamento...</p>
+        <div class="loader"></div>
+    </div>
+    <div id="thanksPopup" class="popup">
+        <p>Obrigado por ajudar a comunidade Monad. Boa Sorte!</p>
+        <button id="closeThanksPopup" class="mt-4 action-button">Fechar</button>
+    </div>
+    <div id="usernamePopup" class="popup">
+        <p>Por favor, insira seu username do X:</p>
+        <input id="twitterUsernameInput" type="text" placeholder="username ou @username" class="border border-gray-600 bg-gray-800 text-white p-2 w-full mb-2 rounded">
+        <button id="submitUsername" class="mt-4 action-button">Enviar</button>
+    </div>
+    <div id="cookieConsent" class="popup">
+        <p>Este site usa cookies para melhorar sua experiência.</p>
+        <button id="acceptCookies" class="action-button">Aceitar</button>
+    </div>
+    <header class="bg-gray-800 w-full py-4 shadow-lg">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <img id="logo" src="/images/iconmain.png" alt="Sorteios 0xGus" width="128" height="128">
+            <div class="relative flex gap-2">
+                <button id="walletButton" class="action-button">Conectar Carteira</button>
+                <div id="walletMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 text-white rounded-lg shadow-lg">
+                    <div class="p-2 border-b border-gray-600">
+                        <p><strong>Endereço:</strong> <span id="userAddress" class="truncate-address"></span></p>
+                    </div>
+                    <div class="p-2 border-b border-gray-600">
+                        <p><strong>X:</strong> <span id="xUsernameDisplay"></span></p>
+                        <p class="text-sm text-gray-400">Errou o @? Reconecte a wallet e compre mais 1 ticket ou entre em contato com <a href="https://x.com/0xGustavo" target="_blank" class="underline hover:text-green-600">0xGus</a></p>
+                    </div>
+                    <button id="disconnectWallet" class="w-full text-left p-2 secondary-button">Desconectar Carteira</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-8 flex flex-col md:flex-row gap-8 flex-1">
+        <div class="md:w-1/2">
+            <h2 class="text-xl font-semibold mb-4 text-white">Monadverse Chapter 1 + 5 MON</h2>
+            <div class="overflow-hidden rounded-lg">
+                <img id="sorteioImage" src="/images/mv1.avif" alt="Sorteio 0xGus" class="w-full h-auto image-3d">
+            </div>
+        </div>
+        <div class="md:w-1/2">
+            <h2 class="text-xl font-semibold mb-4 text-white">Comprar Tickets</h2>
+            <p class="text-gray-400 mb-2">Data do sorteio: 30 de maio às 11h BRT</p>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <p><strong>Preço do Ticket:</strong> <span id="ticketPrice">0.2</span> MON</p>
+                <p><strong>Carteiras Participantes:</strong> <span id="participantCount">0</span></p>
+                <p><strong>Seus Tickets:</strong> <span id="ticketCount">Conecte sua Wallet</span></p>
+                <div class="mt-4">
+                    <div class="flex items-center gap-4">
+                        <div>
+                            <label for="ticketQuantity" class="block text-sm font-medium">Quantidade de Tickets:</label>
+                            <input id="ticketQuantity" type="number" min="1" step="1" value="1" class="border border-gray-600 bg-gray-800 text-white p-2 w-24 rounded">
+                            <p id="ticketQuantityError" class="error-text text-sm mt-1 hidden">Por favor, insira um número inteiro maior ou igual a 1.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium">Saldo:</label>
+                            <p id="walletBalance" class="text-gray-400">0 MON</p>
+                        </div>
+                    </div>
+                    <p><strong>Total:</strong> <span id="totalCost">0.2</span> MON</p>
+                    <p id="raffleStatus" class="error-text mt-2 hidden">Sorteio Fechado</p>
+                    <button id="buyTickets" class="disabled-button w-full mt-2" disabled>Conecte sua wallet primeiro</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <section class="container mx-auto px-4 py-8">
+        <div class="md:w-1/2 mx-auto">
+            <div id="participantsSection">
+                <h2 class="text-xl font-semibold mb-4 text-white">Ranking de Participantes (Top 5)</h2>
+                <ul id="participantsList" class="bg-gray-800 p-4 rounded-lg list-none"></ul>
+            </div>
+        </div>
+    </section>
+    <footer class="bg-gray-800 text-white w-full py-4">
+        <div class="container mx-auto px-4 text-center">
+            <p>Desenvolvido por <a href="https://x.com/0xGustavo" target="_blank" class="underline hover:text-green-600">0xGus</a></p>
+        </div>
+    </footer>
+    <script type="module" src="/web3Config.js"></script>
+    <script type="module" src="/script.js"></script>
+</body>
+</html>
