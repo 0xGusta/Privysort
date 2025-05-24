@@ -1,0 +1,13 @@
+{
+    "name": "sorteios-0xgus",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "build": "mkdir -p dist && cp -r index.html styles.css script.js web3Config.js public/* dist/",
+        "preview": "npx http-server dist -p 8080"
+    },
+    "dependencies": {
+        "js-cookie": "^3.0.5",
+        "web3": "^1.8.0"
+    }
+}
